@@ -20,30 +20,23 @@ set(CMAKE_CXX_STANDARD 17)
 # initialize the Raspberry Pi Pico SDK
 pico_sdk_init()
 
+# include pico-pio-usb library
+set(PICO_PIO_USB_DIR "${CMAKE_CURRENT_LIST_DIR}/Pico-PIO-USB")
+add_subdirectory(${PICO_PIO_USB_DIR} pico_pio_usb)
+
 add_executable(${NAME}
-    src/hid.cpp
-    src/cdc.cpp
     src/main.cpp
 )
 
-# Make sure TinyUSB can find tusb_config.h
-target_include_directories(${NAME} PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}
-)
+pico_enable_stdio_usb(${NAME} 1)
 
-# In addition to pico_stdlib required for common PicoSDK functionality, add dependency on tinyusb_host
-# for TinyUSB device support and tinyusb_board for the additional board support library used by the example
 target_link_libraries(${NAME}
     pico_stdlib
+    pico_pio_usb
     hardware_gpio
     hardware_uart
-    tinyusb_host
-    tinyusb_board
     pico_multicore
 )
-
-#pico_enable_stdio_usb(${NAME} 1)
-#pico_enable_stdio_uart(${NAME} 0)
 
 pico_add_extra_outputs(${NAME})
 
