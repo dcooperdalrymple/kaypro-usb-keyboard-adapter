@@ -25,7 +25,10 @@ set(PICO_PIO_USB_DIR "${CMAKE_CURRENT_LIST_DIR}/Pico-PIO-USB")
 add_subdirectory(${PICO_PIO_USB_DIR} pico_pio_usb)
 
 add_executable(${NAME}
-    src/main.cpp
+    src/keyboard.c
+    src/buzzer.c
+    src/uart.c
+    src/main.c
 )
 
 pico_enable_stdio_usb(${NAME} 1)

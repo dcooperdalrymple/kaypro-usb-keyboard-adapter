@@ -18,6 +18,9 @@
 #include "pio_usb.h"
 
 #include "config.h"
+#include "keyboard.h"
+#include "buzzer.h"
+#include "uart.h"
 
 const char* const program_description = "Kaypro USB Keyboard Adapter v1.0";
 
@@ -26,8 +29,6 @@ static usb_device_t *usb_device = NULL;
 void core1_main(void);
 
 void usb_main(void);
-void read_keyboard_state(uint8_t * data);
-void print_keyboard_state(void);
 void led_main(void);
 
 int main() {
@@ -79,65 +80,24 @@ void usb_main(void) {
 
             // Logitech Unified Receiver
             if (device->vid == 0x046d && device->pid == 0xc52b && ep->ep_num == 0x81 && len == 8) {
-                read_keyboard_state(temp);
-                print_keyboard_state();
+                keyboard_update(temp);
+                keyboard_print();
             }
         }
     }
 }
 
-struct {
-    bool ctrl;
-    bool shift;
-    bool caps;
-    uint8_t keys[6];
-    uint8_t num_keys;
-} keyboardState;
-
-// https://kevinboone.me/pico_usb_kbd_lcd.html?i=1
-// https://www.win.tue.nl/~aeb/linux/kbd/scancodes-14.html
-void read_keyboard_state(uint8_t * data) {
-    uint8_t i;
-
-    keyboardState.ctrl = data[0] & 0x01;
-    keyboardState.shift = data[0] & 0x02;
-
-    keyboardState.num_keys = 6;
-    for (i = 0; i < 6; i++) {
-        if (data[i+2] != 0x00) continue;
-        keyboardState.num_keys = i;
-        break;
-    }
-    for (i = 0; i < 6; i++) {
-        keyboardState.keys[i] = data[i+2];
-    }
+void keyboard_press(uint8_t keycode, KeyboardState * state) {
+    printf("PRESS = %02x\r\n", keycode);
 }
-
-void print_keyboard_state() {
-    printf("CTRL = ");
-    if (keyboardState.ctrl) {
-        printf("ON\r\n");
-    } else {
-        printf("OFF\r\n");
-    }
-
-    printf("SHIFT = ");
-    if (keyboardState.shift) {
-        printf("ON\r\n");
-    } else {
-        printf("OFF\r\n");
-    }
-
-    printf("KEYS = %d\r\n", keyboardState.num_keys);
-    for (uint8_t i = 0; i < keyboardState.num_keys; i++) {
-        printf("%02x ", keyboardState.keys[i]);
-    }
-    printf("\r\n\r\n");
+void keyboard_release(uint8_t keycode, KeyboardState * state) {
+    printf("RELEASE = %02x\r\n", keycode);
 }
 
 void led_main(void) {
     const uint32_t interval_ms = 1000;
-    static uint32_t start_ms = to_ms_since_boot(get_absolute_time());
+    static uint32_t start_ms = 0;
+    if (start_ms == 0) start_ms = to_ms_since_boot(get_absolute_time());
 
     static bool led_state = false;
 
