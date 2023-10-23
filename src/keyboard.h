@@ -18,11 +18,20 @@
 #define KBD_KEYS_OFFSET     2
 
 #define KBD_KEY_CAPSLOCK    0x39
+#define KBD_MOD_CTRLLEFT    0x01
+#define KBD_MOD_SHIFTLEFT   0x02
+#define KBD_MOD_ALTLEFT     0x04
+#define KBD_MOD_GUILEFT     0x08
+#define KBD_MOD_CTRLRIGHT   0x10
+#define KBD_MOD_SHIFTRIGHT  0x20
+#define KBD_MOD_ALTRIGHT    0x40
+#define KBD_MOD_GUIRIGHT    0x80
 
 typedef struct KeyboardState {
     bool ctrl;
     bool shift;
     bool alt;
+    bool gui;
     bool capslock;
     uint8_t keys[KBD_KEYS_LENGTH];
     uint8_t length;

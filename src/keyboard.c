@@ -59,9 +59,10 @@ KeyboardState * keyboard_read(uint8_t * packet) {
     KeyboardState *state = (KeyboardState*) malloc(sizeof(KeyboardState));
     uint8_t i;
 
-    state->ctrl = packet[0] & 0x01;
-    state->shift = packet[0] & 0x02;
-    state->alt = packet[0] & 0x04;
+    state->ctrl = packet[0] & (KBD_MOD_CTRLLEFT | KBD_MOD_CTRLRIGHT);
+    state->shift = packet[0] & (KBD_MOD_SHIFTLEFT | KBD_MOD_SHIFTRIGHT);
+    state->alt = packet[0] & (KBD_MOD_ALTLEFT | KBD_MOD_ALTRIGHT);
+    state->gui = packet[0] & (KBD_MOD_GUILEFT | KBD_MOD_GUIRIGHT);
     //state->capslock = false;
 
     state->length = KBD_KEYS_LENGTH;
@@ -83,6 +84,7 @@ void keyboard_copy(KeyboardState * state) {
     keyboardState.ctrl = state->ctrl;
     keyboardState.shift = state->shift;
     keyboardState.alt = state->alt;
+    keyboardState.gui = state->gui;
     //keyboardState.capslock = state->capslock;
 
     keyboardState.length = state->length;
@@ -98,6 +100,7 @@ void keyboard_clear(void) {
     keyboardState.ctrl = false;
     keyboardState.shift = false;
     keyboardState.alt = false;
+    keyboardState.gui = false;
     keyboardState.capslock = false;
 
     keyboardState.length = 0;
@@ -110,6 +113,7 @@ void keyboard_print(void) {
     printf("CTRL = %s\r\n", keyboardState.ctrl ? "ON" : "OFF");
     printf("SHIFT = %s\r\n", keyboardState.shift ? "ON" : "OFF");
     printf("ALT = %s\r\n", keyboardState.alt ? "ON" : "OFF");
+    printf("GUI = %s\r\n", keyboardState.gui ? "ON" : "OFF");
     printf("CAPSLOCK = %s\r\n", keyboardState.capslock ? "ON" : "OFF");
 
     printf("KEYS = %d\r\n", keyboardState.length);
