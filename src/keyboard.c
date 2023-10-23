@@ -44,6 +44,13 @@ void keyboard_update(uint8_t * packet) {
             }
         }
         if (!found) {
+            // Special Cases
+            switch (state->keys[j]) {
+                case KBD_KEY_CAPSLOCK:
+                    keyboardState.capslock = !keyboardState.capslock; // toggle
+                    break;
+            }
+
             keyboard_press(state->keys[j], state);
         }
     }
@@ -59,6 +66,7 @@ KeyboardState * keyboard_read(uint8_t * packet) {
     state->ctrl = packet[0] & 0x01;
     state->shift = packet[0] & 0x02;
     state->alt = packet[0] & 0x04;
+    //state->capslock = false;
 
     state->length = KBD_KEYS_LENGTH;
     for (i = 0; i < KBD_KEYS_LENGTH; i++) {
@@ -79,6 +87,7 @@ void keyboard_copy(KeyboardState * state) {
     keyboardState.ctrl = state->ctrl;
     keyboardState.shift = state->shift;
     keyboardState.alt = state->alt;
+    //keyboardState.capslock = state->capslock;
 
     keyboardState.length = state->length;
 
@@ -93,6 +102,7 @@ void keyboard_clear(void) {
     keyboardState.ctrl = false;
     keyboardState.shift = false;
     keyboardState.alt = false;
+    keyboardState.capslock = false;
 
     keyboardState.length = 0;
     for (i = 0; i < KBD_KEYS_LENGTH; i++) {
@@ -104,6 +114,7 @@ void keyboard_print(void) {
     printf("CTRL = %s\r\n", keyboardState.ctrl ? "ON" : "OFF");
     printf("SHIFT = %s\r\n", keyboardState.shift ? "ON" : "OFF");
     printf("ALT = %s\r\n", keyboardState.alt ? "ON" : "OFF");
+    printf("CAPSLOCK = %s\r\n", keyboardState.capslock ? "ON" : "OFF");
 
     printf("KEYS = %d\r\n", keyboardState.length);
     for (uint8_t i = 0; i < keyboardState.length; i++) {

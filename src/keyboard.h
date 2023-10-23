@@ -14,13 +14,16 @@
 #include <stdlib.h>
 #include "pico/stdlib.h"
 
-#define KBD_KEYS_LENGTH 6
-#define KBD_KEYS_OFFSET 2
+#define KBD_KEYS_LENGTH     6
+#define KBD_KEYS_OFFSET     2
+
+#define KBD_KEY_CAPSLOCK    0x39
 
 typedef struct KeyboardState {
     bool ctrl;
     bool shift;
     bool alt;
+    bool capslock;
     uint8_t keys[KBD_KEYS_LENGTH];
     uint8_t length;
 } KeyboardState;
