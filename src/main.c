@@ -32,8 +32,8 @@ void usb_main(void);
 void led_main(void);
 
 int main() {
-    // default 125MHz is not appropreate. Sysclock should be multiple of 12MHz.
-    set_sys_clock_khz(120000, true);
+    // Default system clock of 125MHz is not appropriate, should be multiple of 12MHz.
+    set_sys_clock_khz(SYSCLK_KHZ, true);
 
     // picotool declarations
     bi_decl(bi_program_description(program_description));
@@ -51,9 +51,12 @@ int main() {
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
 
+    buzzer_init();
+
     while (1) {
         usb_main();
         led_main();
+        buzzer_update();
 
         stdio_flush();
         sleep_us(10);
@@ -89,6 +92,7 @@ void usb_main(void) {
 
 void keyboard_press(uint8_t keycode, KeyboardState * state) {
     printf("PRESS = %02x\r\n", keycode);
+    buzzer_trigger();
 }
 void keyboard_release(uint8_t keycode, KeyboardState * state) {
     printf("RELEASE = %02x\r\n", keycode);
@@ -97,11 +101,11 @@ void keyboard_release(uint8_t keycode, KeyboardState * state) {
 void led_main(void) {
     const uint32_t interval_ms = 1000;
     static uint32_t start_ms = 0;
-    if (start_ms == 0) start_ms = to_ms_since_boot(get_absolute_time());
+    if (start_ms == 0) start_ms = millis();
 
     static bool led_state = false;
 
-    if (to_ms_since_boot(get_absolute_time()) - start_ms < interval_ms) return;
+    if (millis() - start_ms < interval_ms) return;
     start_ms += interval_ms;
 
     led_state = !led_state;

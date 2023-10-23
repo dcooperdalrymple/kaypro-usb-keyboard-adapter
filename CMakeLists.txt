@@ -37,6 +37,7 @@ target_link_libraries(${NAME}
     pico_stdlib
     pico_pio_usb
     hardware_gpio
+    hardware_pwm
     hardware_uart
     pico_multicore
 )
