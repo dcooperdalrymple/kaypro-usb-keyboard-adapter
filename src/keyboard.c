@@ -15,44 +15,40 @@
 
 KeyboardState keyboardState;
 
+bool in_array(uint8_t value, uint8_t * arr, uint8_t length) {
+    for (uint8_t i = 0; i < length; i++) {
+        if (value == arr[i]) return true;
+    }
+    return false;
+}
+
 void keyboard_update(uint8_t * packet) {
-    uint8_t i, j;
-    bool found;
+    uint8_t i;
     KeyboardState * state = keyboard_read(packet);
 
     // Check for release
     for (i = 0; i < keyboardState.length; i++) {
-        found = false;
-        for (j = 0; j < state->length; j++) {
-            if (keyboardState.keys[i] == state->keys[j]) {
-                found = true;
+        if (in_array(keyboardState.keys[i], state->keys, state->length)) continue; // Exit early if no state change
+        keyboard_release(keyboardState.keys[i], state);
+    }
+
+    // Check for special cases (press before callbacks)
+    for (i = 0; i < state->length; i++) {
+        if (in_array(state->keys[i], keyboardState.keys, keyboardState.length)) continue; // Exit early if no state change
+        switch (state->keys[i]) {
+            case KBD_KEY_CAPSLOCK:
+                keyboardState.capslock = !keyboardState.capslock; // toggle
                 break;
-            }
-        }
-        if (!found) {
-            keyboard_release(keyboardState.keys[i], state);
         }
     }
 
+    // Copy special cases to new state
+    state->capslock = keyboardState.capslock;
+
     // Check for press
     for (i = 0; i < state->length; i++) {
-        found = false;
-        for (j = 0; j < keyboardState.length; j++) {
-            if (state->keys[i] == keyboardState.keys[j]) {
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            // Special Cases
-            switch (state->keys[j]) {
-                case KBD_KEY_CAPSLOCK:
-                    keyboardState.capslock = !keyboardState.capslock; // toggle
-                    break;
-            }
-
-            keyboard_press(state->keys[j], state);
-        }
+        if (in_array(state->keys[i], keyboardState.keys, keyboardState.length)) continue; // Exit early if no state change
+        keyboard_press(state->keys[i], state);
     }
 
     keyboard_copy(state);
