@@ -23,6 +23,9 @@
 #include "buzzer.h"
 #include "uart.h"
 
+//#define DEBUG
+//#define DEBUG_PUTCHAR
+
 #define EP_NUM_KEYBOARD 0x81
 
 const char* const program_description = "Kaypro USB Keyboard Adapter v1.0";
@@ -85,7 +88,9 @@ void usb_main(void) {
             if (len != 8) continue;
 
             keyboard_update(temp);
+            #ifdef DEBUG
             keyboard_print();
+            #endif
         }
     }
 
@@ -93,12 +98,20 @@ void usb_main(void) {
 }
 
 void keyboard_press(uint8_t keycode, KeyboardState * state) {
+    #ifdef DEBUG
     printf("PRESS = %02x\r\n", keycode);
+    #endif
     led_set_capslock(state->capslock);
     buzzer_trigger();
+    uint8_t ch = keyboard_get_ascii(keycode, state);
+    #ifdef DEBUG_PUTCHAR
+    if (ch) putchar(ch);
+    #endif
 }
 void keyboard_release(uint8_t keycode, KeyboardState * state) {
+    #ifdef DEBUG
     printf("RELEASE = %02x\r\n", keycode);
+    #endif
 }
 
 void core1_main(void) {
