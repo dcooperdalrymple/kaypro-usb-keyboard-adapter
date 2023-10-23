@@ -26,6 +26,7 @@ add_subdirectory(${PICO_PIO_USB_DIR} pico_pio_usb)
 
 add_executable(${NAME}
     src/keyboard.c
+    src/led.c
     src/buzzer.c
     src/uart.c
     src/main.c

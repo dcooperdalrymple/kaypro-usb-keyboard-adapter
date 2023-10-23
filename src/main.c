@@ -19,6 +19,7 @@
 
 #include "config.h"
 #include "keyboard.h"
+#include "led.h"
 #include "buzzer.h"
 #include "uart.h"
 
@@ -26,10 +27,8 @@ const char* const program_description = "Kaypro USB Keyboard Adapter v1.0";
 
 static usb_device_t *usb_device = NULL;
 
-void core1_main(void);
-
 void usb_main(void);
-void led_main(void);
+void core1_main(void);
 
 int main() {
     // Default system clock of 125MHz is not appropriate, should be multiple of 12MHz.
@@ -48,14 +47,11 @@ int main() {
     // All USB task run in core1
     multicore_launch_core1(core1_main);
 
-    gpio_init(LED_PIN);
-    gpio_set_dir(LED_PIN, GPIO_OUT);
-
+    led_init();
     buzzer_init();
 
     while (1) {
         usb_main();
-        led_main();
         buzzer_update();
 
         stdio_flush();
@@ -68,9 +64,12 @@ int main() {
 void usb_main(void) {
     if (usb_device == NULL) return;
 
+    bool has_connected = false;
+
     for (int dev_idx = 0; dev_idx < PIO_USB_DEVICE_CNT; dev_idx++) {
         usb_device_t *device = &usb_device[dev_idx];
         if (!device->connected) continue;
+        has_connected = true;
 
         // Print received packet to EPs
         for (int ep_idx = 0; ep_idx < PIO_USB_DEV_EP_CNT; ep_idx++) {
@@ -88,32 +87,20 @@ void usb_main(void) {
             }
         }
     }
+
+    led_set_connected(has_connected);
 }
 
 void keyboard_press(uint8_t keycode, KeyboardState * state) {
     printf("PRESS = %02x\r\n", keycode);
+    led_set_capslock(state->capslock);
     buzzer_trigger();
 }
 void keyboard_release(uint8_t keycode, KeyboardState * state) {
     printf("RELEASE = %02x\r\n", keycode);
 }
 
-void led_main(void) {
-    const uint32_t interval_ms = 1000;
-    static uint32_t start_ms = 0;
-    if (start_ms == 0) start_ms = millis();
-
-    static bool led_state = false;
-
-    if (millis() - start_ms < interval_ms) return;
-    start_ms += interval_ms;
-
-    led_state = !led_state;
-    gpio_put(LED_PIN, led_state);
-}
-
 void core1_main(void) {
-
     sleep_ms(10);
 
     // To run USB SOF interrupt in core1, create alarm pool in core1.
