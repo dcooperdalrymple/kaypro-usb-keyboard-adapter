@@ -17,7 +17,6 @@
 #define KBD_KEYS_LENGTH     6
 #define KBD_KEYS_OFFSET     2
 
-#define KBD_KEY_CAPSLOCK    0x39
 #define KBD_MOD_CTRLLEFT    0x01
 #define KBD_MOD_SHIFTLEFT   0x02
 #define KBD_MOD_ALTLEFT     0x04
@@ -48,5 +47,6 @@ void keyboard_copy(KeyboardState * state);
 void keyboard_clear(void);
 void keyboard_compare(void);
 void keyboard_print(void);
+uint8_t keyboard_get_ascii(uint8_t keycode, KeyboardState * state);
 
 #endif

@@ -12,6 +12,9 @@
 #include "pico/stdlib.h"
 
 #include "config.h"
+#include "keycodes.h"
+
+static uint8_t const keycode2ascii[128][2] =  { HID_KEYCODE_TO_ASCII };
 
 KeyboardState keyboardState;
 
@@ -36,7 +39,7 @@ void keyboard_update(uint8_t * packet) {
     for (i = 0; i < state->length; i++) {
         if (in_array(state->keys[i], keyboardState.keys, keyboardState.length)) continue; // Exit early if no state change
         switch (state->keys[i]) {
-            case KBD_KEY_CAPSLOCK:
+            case HID_KEY_CAPS_LOCK:
                 keyboardState.capslock = !keyboardState.capslock; // toggle
                 break;
         }
@@ -121,4 +124,13 @@ void keyboard_print(void) {
         printf("%02x ", keyboardState.keys[i]);
     }
     printf("\r\n\r\n");
+}
+
+uint8_t keyboard_get_ascii(uint8_t keycode, KeyboardState * state) {
+    if (state == NULL) state = &keyboardState;
+    bool shift = state->shift;
+    if (keycode >= HID_KEY_A && keycode <= HID_KEY_Z && state->capslock) {
+        shift = !shift;
+    }
+    return keycode2ascii[keycode][shift ? 1 : 0];
 }
