@@ -6,3 +6,7 @@ Adapter for the Kaypro 2 to replace the original keyboard with a USB keyboard. U
 * Configuring: `cmake -B build -S .`
 * Compiling/Building: `make -C build`
 * Writing: Hold BOOTSEL button on Pico, plug it in via USB, and release BOOTSEL. Copy and paste `kaypro-usb.uf2` into RPI-RP2 drive.
+
+## Hardware
+
+![schematic](hardware/schematic.jpg "Kaypro USB Keyboard Adapter Schematic")
