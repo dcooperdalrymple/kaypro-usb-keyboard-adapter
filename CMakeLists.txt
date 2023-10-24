@@ -28,6 +28,7 @@ add_executable(${NAME}
     src/keyboard.c
     src/led.c
     src/buzzer.c
+    src/kaypro.c
     src/uart.c
     src/main.c
 )

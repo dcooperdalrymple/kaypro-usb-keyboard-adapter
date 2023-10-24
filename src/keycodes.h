@@ -5,11 +5,11 @@
  * @since 1.0
  */
 
-// Sourced from TinyUSB
-// https://github.com/hathach/tinyusb/blob/master/src/class/hid/hid.h
-
 #ifndef KEYCODES_H_
 #define KEYCODES_H_
+
+// Sourced from TinyUSB
+// https://github.com/hathach/tinyusb/blob/master/src/class/hid/hid.h
 
 #define HID_KEY_NONE                      0x00
 #define HID_KEY_A                         0x04

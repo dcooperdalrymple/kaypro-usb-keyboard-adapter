@@ -21,6 +21,7 @@
 #include "keyboard.h"
 #include "led.h"
 #include "buzzer.h"
+#include "kaypro.h"
 #include "uart.h"
 
 //#define DEBUG
@@ -101,12 +102,17 @@ void keyboard_press(uint8_t keycode, KeyboardState * state) {
     #ifdef DEBUG
     printf("PRESS = %02x\r\n", keycode);
     #endif
+
     led_set_capslock(state->capslock);
     buzzer_trigger();
-    uint8_t ch = keyboard_get_ascii(keycode, state);
+
     #ifdef DEBUG_PUTCHAR
+    uint8_t ch = keyboard_get_ascii(keycode, state);
     if (ch) putchar(ch);
     #endif
+
+    uint8_t data = kaypro_get_data(keycode, state);
+    if (data != KP_NULL) uart_write(data);
 }
 void keyboard_release(uint8_t keycode, KeyboardState * state) {
     #ifdef DEBUG
