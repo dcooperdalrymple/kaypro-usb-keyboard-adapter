@@ -21,6 +21,9 @@
 #define UART_TX_PIN         4
 #define UART_RX_PIN         5
 #define UART_BUFFER_SIZE    32
+#define UART_DATA_BITS      8
+#define UART_STOP_BITS      1
+#define UART_PARITY         0
 
 #define LED_PIN             25
 

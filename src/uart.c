@@ -17,6 +17,9 @@ void uart_start(void) {
     // Set UART speed
     uart_init(UART_ID, UART_BAUD_RATE);
 
+    // Set data format
+    uart_set_format(UART_ID, UART_DATA_BITS, UART_STOP_BITS, UART_PARITY);
+
     // Set UART pins
     gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART);
     gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);
