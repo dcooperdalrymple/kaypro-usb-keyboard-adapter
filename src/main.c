@@ -82,7 +82,7 @@ void usb_main(void) {
         for (int ep_idx = 0; ep_idx < PIO_USB_DEV_EP_CNT; ep_idx++) {
             endpoint_t *ep = pio_usb_get_endpoint(device, ep_idx);
             if (ep == NULL) break;
-            if (ep_num != EP_NUM_KEYBOARD) continue;
+            if (ep->ep_num != EP_NUM_KEYBOARD) continue;
 
             uint8_t temp[64];
             int len = pio_usb_get_in_data(ep, temp, sizeof(temp));
