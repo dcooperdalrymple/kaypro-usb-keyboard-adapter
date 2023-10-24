@@ -55,6 +55,7 @@ int main() {
 
     led_init();
     buzzer_init();
+    uart_start();
 
     while (1) {
         usb_main();
