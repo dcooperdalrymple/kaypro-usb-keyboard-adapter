@@ -119,7 +119,7 @@ void keyboard_print(void) {
     printf("GUI = %s\r\n", keyboardState.gui ? "ON" : "OFF");
     printf("CAPSLOCK = %s\r\n", keyboardState.capslock ? "ON" : "OFF");
 
-    printf("KEYS = %d\r\n", keyboardState.length);
+    printf("KEYS = %d, ", keyboardState.length);
     for (uint8_t i = 0; i < keyboardState.length; i++) {
         printf("%02x ", keyboardState.keys[i]);
     }
