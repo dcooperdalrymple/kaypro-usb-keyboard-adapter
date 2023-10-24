@@ -25,6 +25,7 @@ void uart_start(void) {
     // Set UART pins
     gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART);
     gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);
+    gpio_set_outover(UART_TX_PIN, GPIO_OVERRIDE_INVERT);
 
     // Enable Tx and Rx FIFOs on UART
     uart_set_fifo_enabled(UART_ID, true);

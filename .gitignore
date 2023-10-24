@@ -32,3 +32,6 @@
 *.app
 
 build
+
+# KiCad
+hardware/kaypro-usb-backups
