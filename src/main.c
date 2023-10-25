@@ -101,7 +101,6 @@ void usb_main(void) {
 
 void keyboard_press(uint8_t keycode, KeyboardState * state) {
     led_set_capslock(state->capslock);
-    buzzer_trigger();
 
     uint8_t ch = keyboard_get_ascii(keycode, state);
     uint8_t data = kaypro_get_data(keycode, state);
@@ -117,7 +116,10 @@ void keyboard_press(uint8_t keycode, KeyboardState * state) {
     if (ch) putchar(ch);
     #endif
 
-    if (data != KP_NULL) uart_write(data);
+    if (data != KP_KEY_NONE) {
+        uart_write(data);
+        buzzer_trigger();
+    }
 }
 void keyboard_release(uint8_t keycode, KeyboardState * state) {
     #ifdef DEBUG
