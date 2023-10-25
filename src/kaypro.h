@@ -52,20 +52,20 @@
 #define KP_KEY_CTRL_MINUS           0x1f
 #define KP_KEY_SPACE                0x20
 #define KP_KEY_EXCLAMATION          0x21
-#define KP_KEY_QUOTE                0x40 //0x22
+#define KP_KEY_QUOTE                0x22
 #define KP_KEY_HASH                 0x23
 #define KP_KEY_DOLLAR               0x24
 #define KP_KEY_PERCENT              0x25
-#define KP_KEY_AMPERSAND            0x5e //0x26
+#define KP_KEY_AMPERSAND            0x26
 #define KP_KEY_APOSTROPHE           0x27
-#define KP_KEY_PARENTHESES_LEFT     0x2a //0x28
-#define KP_KEY_PARENTHESES_RIGHT    0x28 //0x29
-#define KP_KEY_ASTERISK             0x7d //0x2a
-#define KP_KEY_PLUS                 0x5d //0x2b
+#define KP_KEY_PARENTHESES_LEFT     0x28
+#define KP_KEY_PARENTHESES_RIGHT    0x29
+#define KP_KEY_ASTERISK             0x2a
+#define KP_KEY_PLUS                 0x2b
 #define KP_KEY_COMMA                0x2c
-#define KP_KEY_MINUS                0x2f //0x2d
+#define KP_KEY_MINUS                0x2d
 #define KP_KEY_PERIOD               0x2e
-#define KP_KEY_SLASH                0x26 //0x2f
+#define KP_KEY_SLASH                0x2f
 #define KP_KEY_0                    0x30
 #define KP_KEY_1                    0x31
 #define KP_KEY_2                    0x32
@@ -76,12 +76,12 @@
 #define KP_KEY_7                    0x37
 #define KP_KEY_8                    0x38
 #define KP_KEY_9                    0x39
-#define KP_KEY_COLON                0x3e //0x3a
-#define KP_KEY_SEMICOLON            0x3c //0x3b
+#define KP_KEY_COLON                0x3a
+#define KP_KEY_SEMICOLON            0x3b
 #define KP_KEY_LESSTHAN             0x3c
-#define KP_KEY_EQUAL                0x29 //0x3d
+#define KP_KEY_EQUAL                0x3d
 #define KP_KEY_GREATERTHAN          0x3e
-#define KP_KEY_QUESTION             0x5f //0x3f
+#define KP_KEY_QUESTION             0x3f
 #define KP_KEY_AT                   0x40
 #define KP_KEY_A                    0x41
 #define KP_KEY_B                    0x42
@@ -107,13 +107,13 @@
 #define KP_KEY_V                    0x56
 #define KP_KEY_W                    0x57
 #define KP_KEY_X                    0x58
-#define KP_KEY_Y                    0x5a //0x59
-#define KP_KEY_Z                    0x59 //0x5a
-#define KP_KEY_BRACKET_LEFT         0x5c //0x5b
+#define KP_KEY_Y                    0x59
+#define KP_KEY_Z                    0x5a
+#define KP_KEY_BRACKET_LEFT         0x5b
 #define KP_KEY_BACKSLASH            0x5c
-#define KP_KEY_BRACKET_RIGHT        0x7c //0x5d
+#define KP_KEY_BRACKET_RIGHT        0x5d
 #define KP_KEY_CARET                0x5e
-#define KP_KEY_UNDERSCORE           0x3f //0x5f
+#define KP_KEY_UNDERSCORE           0x5f
 #define KP_KEY_GRAVE                0x60
 #define KP_KEY_a                    0x61
 #define KP_KEY_b                    0x62
@@ -139,8 +139,8 @@
 #define KP_KEY_v                    0x76
 #define KP_KEY_w                    0x77
 #define KP_KEY_x                    0x78
-#define KP_KEY_y                    0x7a //0x79
-#define KP_KEY_z                    0x79 //0x7a
+#define KP_KEY_y                    0x79
+#define KP_KEY_z                    0x7a
 #define KP_KEY_CURLYBRACKET_LEFT    0x7b
 #define KP_KEY_PIPE                 0x7c
 #define KP_KEY_CURLYBRACKET_RIGHT   0x7d
