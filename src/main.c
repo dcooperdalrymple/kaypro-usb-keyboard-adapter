@@ -102,7 +102,9 @@ void usb_main(void) {
 void keyboard_press(uint8_t keycode, KeyboardState * state) {
     led_set_capslock(state->capslock);
 
+    #if defined(DEBUG) || defined(DEBUG_PUTCHAR)
     uint8_t ch = keyboard_get_ascii(keycode, state);
+    #endif
     uint8_t data = kaypro_get_data(keycode, state);
 
     #ifdef DEBUG
