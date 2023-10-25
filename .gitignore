@@ -35,3 +35,6 @@ build
 
 # KiCad
 hardware/kaypro-usb-backups
+
+# LibreOffice
+.~lock.*
